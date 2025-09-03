@@ -1,5 +1,4 @@
 import React from 'react';
-import Categories from '../../../../01Okkio-chandan/repo-okkio/client/src/components/Categories';
 
 const ProductCard = ({ image, title,category, price, originalPrice }) => {
   return (
