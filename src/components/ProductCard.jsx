@@ -20,14 +20,4 @@ const ProductCard = ({ image, title,category, price, originalPrice }) => {
   );
 };
 
-
-// const ProductCard = ({ image, title, price, originalPrice }) => (
-//   <div className="bg-white p-4 rounded shadow-md text-center">
-//     <img src={image} alt={title} className="w-full h-48 object-cover mb-2" />
-//     <h3 className="text-sm font-semibold">{title}</h3>
-//     <p className="text-green-600">₹{price}</p>
-//     {originalPrice && <p className="text-gray-500 line-through">₹{originalPrice}</p>}
-//   </div>
-// );
-
 export default ProductCard;
