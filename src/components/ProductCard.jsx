@@ -1,6 +1,21 @@
 import React from 'react';
+import { useCart } from '../context/CartContext';
 
-const ProductCard = ({ image, title,category, price, originalPrice }) => {
+const ProductCard = ({id, image, title,category, price, originalPrice }) => {
+
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      image,
+      title,
+      category,
+      price: Number(price), // convert to number for calculations
+      originalPrice: originalPrice ? Number(originalPrice) : null
+    });
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <img src={image} alt={title} className="w-full h-48 object-cover" />
@@ -11,7 +26,7 @@ const ProductCard = ({ image, title,category, price, originalPrice }) => {
           <p className="text-green-600 font-bold">₹{price}</p>
           {originalPrice && <p className="text-gray-500 line-through">₹{originalPrice}</p>}
         </div>
-        <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors">
+        <button onClick={handleAddToCart} className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors">
           Add to Cart
         </button>
       </div>

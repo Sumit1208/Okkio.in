@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 
-// Navbar component with responsive design
-export default function Navbar({ onLinkClick }) {
-  // State to manage the mobile menu visibility
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { getCartItemsCount } = useCart();
+  const cartItemsCount = getCartItemsCount();
 
-  // Function to toggle the mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <nav className="bg-white shadow-lg py-4 px-6 md:px-8 lg:px-12">
-      {/* Desktop Navigation - Visible on medium screens and up */}
+      {/* Desktop Navigation */}
       <div className="hidden md:flex container mx-auto justify-between items-center">
-        {/* Logo - left-aligned */}
         <div className="flex-shrink-0">
-          <a href="#" onClick={() => onLinkClick('Home')} className="text-2xl font-extrabold text-indigo-600">
+          <Link to="/" className="text-2xl font-extrabold text-indigo-600">
             Okkio
-          </a>
+          </Link>
         </div>
 
-        {/* Desktop Menu and Search Bar - center-aligned */}
         <div className="flex items-center space-x-8 lg:space-x-12">
+          <Link to="/" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Home</Link>
+          <Link to="/products" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Products</Link>
+          <Link to="/services" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Services</Link>
+          <Link to="/contact" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Contact</Link>
           
-          <a href="#" onClick={() => onLinkClick('Home')} className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Home</a>
-          <a href="#" onClick={() => onLinkClick('Products')} className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Products</a>
-          <a href="#" onClick={() => onLinkClick('Services')} className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Services</a>
-          <a href="#" onClick={() => onLinkClick('Contact')} className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Contact</a>
-          {/* Search bar for desktop */}
           <div className="relative w-full max-w-sm">
             <input 
               type="text" 
@@ -44,51 +42,61 @@ export default function Navbar({ onLinkClick }) {
           </div>
         </div>
 
-        {/* Right-aligned button for desktop */}
         <div className="flex items-center space-x-4">
-          <a href="#" onClick={() => onLinkClick('Cart')} className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">
+          <Link to="/cart" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300 relative">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h18l-1.685 9.176a2 2 0 01-1.996 1.824H7.681a2 2 0 01-1.996-1.824L4 5h16" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 13h10a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2a2 2 0 012-2z" />
             </svg>
-          </a>
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                {cartItemsCount}
+              </span>
+            )}
+          </Link>
+          
           <button className="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-colors duration-300">
             Profile
           </button>
         </div>
       </div>
       
-      {/* Mobile Navigation - Visible on small screens */}
+      {/* Mobile Navigation */}
       <div className="md:hidden container mx-auto flex justify-between items-center">
-        {/* Mobile menu button (Hamburger) - left-aligned */}
         <div>
           <button onClick={toggleMenu} className="focus:outline-none">
-            {/* Hamburger Icon */}
             <svg className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {/* Conditional rendering for the icon */}
               {isOpen ? (
-                // Close icon (X)
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               ) : (
-                // Hamburger icon (3 lines)
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
               )}
             </svg>
           </button>
         </div>
 
-        {/* Logo - right-aligned */}
         <div className="flex-shrink-0">
-          <a href="#" onClick={() => onLinkClick('Home')} className="text-2xl font-extrabold text-indigo-600">
+          <Link to="/" className="text-2xl font-extrabold text-indigo-600">
             Okkio
-          </a>
+          </Link>
         </div>
+
+        <Link to="/cart" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300 relative">
+          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h18l-1.685 9.176a2 2 0 01-1.996 1.824H7.681a2 2 0 01-1.996-1.824L4 5h16" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 13h10a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2a2 2 0 012-2z" />
+          </svg>
+          {cartItemsCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {cartItemsCount}
+            </span>
+          )}
+        </Link>
       </div>
 
-      {/* Mobile Menu Dropdown - toggled by state, full-width, slides down */}
+      {/* Mobile Menu Dropdown */}
       <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100 py-4' : 'max-h-0 opacity-0 py-0 overflow-hidden'}`}>
         <div className="flex flex-col items-center space-y-4">
-          {/* Search bar for mobile */}
           <div className="relative w-4/5 mx-auto">
             <input 
               type="text" 
@@ -102,18 +110,18 @@ export default function Navbar({ onLinkClick }) {
             </div>
           </div>
           
-          <a href="#" onClick={() => { onLinkClick('Home'); setIsOpen(false); }} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Home</a>
-          <a href="#" onClick={() => { onLinkClick('Products'); setIsOpen(false); }} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Products</a>
-          <a href="#" onClick={() => { onLinkClick('Services'); setIsOpen(false); }} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Services</a>
-          <a href="#" onClick={() => { onLinkClick('Contact'); setIsOpen(false); }} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Contact</a>
+          <Link to="/" onClick={() => setIsOpen(false)} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Home</Link>
+          <Link to="/products" onClick={() => setIsOpen(false)} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Products</Link>
+          <Link to="/services" onClick={() => setIsOpen(false)} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Services</Link>
+          <Link to="/contact" onClick={() => setIsOpen(false)} className="block w-full text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">Contact</Link>
           
-          <a href="#" onClick={() => { onLinkClick('Cart'); setIsOpen(false); }} className="block w-4/5 text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">
+          <Link to="/cart" onClick={() => setIsOpen(false)} className="block w-4/5 text-center text-gray-700 hover:text-indigo-600 transition-colors duration-300">
             <svg className="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h18l-1.685 9.176a2 2 0 01-1.996 1.824H7.681a2 2 0 01-1.996-1.824L4 5h16" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 13h10a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2a2 2 0 012-2z" />
             </svg>
             <span className="ml-2">Cart</span>
-          </a>
+          </Link>
           
           <button className="w-4/5 bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-colors duration-300 mt-4">
             Profile
